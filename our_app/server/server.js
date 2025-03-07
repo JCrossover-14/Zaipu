@@ -7,10 +7,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+/*
 const BankAccounts = require("./models/bankaccounts.js");
-const Transactions = require("./models/transactions.js");
-const Users = require("./models/users.js");
-const Categories = require("./models/categories.js");
+const Purchase = require("./models/purchase.js");
+const User = require("./models/users.js");
+const Category = require("./models/categories.js");
+*/
+
 
 
 const mongoURI = "mongodb://localhost:27017/HackKnight2025";
