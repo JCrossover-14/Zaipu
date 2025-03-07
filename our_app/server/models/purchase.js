@@ -10,5 +10,5 @@ const purchaseSchema = Schema({
     category: {type: String}
 })
 
-const Purchase = mongoose.model("Purchase", purchaseSchema);
-module.exports = Purchase;
+const Purchases = mongoose.model("Purchases", purchaseSchema);
+module.exports = Purchases;

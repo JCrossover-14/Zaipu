@@ -35,3 +35,4 @@ const usersRoute = require("./routers/users")
 app.use("/bank", bankaccountRoute);
 app.use("/purchases", purchasesRoute);
 app.use("/user", usersRoute); 
+

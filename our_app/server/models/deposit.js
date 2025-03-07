@@ -8,5 +8,5 @@ const depositSchema = Schema({
     date:{type:Date},
 })
 
-const Deposit = mongoose.model("Deposit", depositSchema);
-module.exports = Deposit;
+const Deposits = mongoose.model("Deposits", depositSchema);
+module.exports = Deposits;
