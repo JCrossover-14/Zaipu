@@ -6,7 +6,7 @@ const purchaseSchema = Schema({
     type: {type: String},
     accountId: {type: String},
     amount: {type: Number},
-    date: {type: String},
+    date: {type: Date},
     category: {type: String}
 })
 

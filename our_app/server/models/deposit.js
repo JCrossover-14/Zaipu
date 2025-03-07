@@ -5,7 +5,7 @@ const depositSchema = Schema({
     type:{type:String},
     accountId:{type:String},
     amount:{type:Number},
-    date:{type:String},
+    date:{type:Date},
 })
 
 const Deposit = mongoose.model("Deposit", depositSchema);
