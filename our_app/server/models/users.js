@@ -7,6 +7,7 @@ var userSchema = new Schema({
     email:{type:String},
     passwordHash:{type:String, required:true},
     accountIds:{type: List[String], default: []},
+    categories: {type: List[String], default: []}, 
 });
 
 userSchema.methods.isValidPassword = async function(password) {
