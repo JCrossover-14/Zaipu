@@ -54,3 +54,34 @@ app.post("/login", async (req,res)=>{
 });
 
 
+app.post("/register", async (req, res) => {
+    try {
+      //check if user already exists
+      const existingUser = await User.findOne({ email: req.body.email });
+      if (existingUser) {
+        return res.status(400).send("User already exists with this email.");
+      }
+  
+      //hash the password
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash(req.body.password, salt);
+  
+      //create a new user
+      const newUser = new User({
+        username: req.body.username,
+        email: req.body.email,
+        passwordHash,
+      });
+  
+      //save the user
+      const savedUser = await newUser.save();
+      res
+        .status(201)
+        .json({ message: "User created successfully", userId: savedUser._id });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error in registering new user");
+    }
+  });
+
+
