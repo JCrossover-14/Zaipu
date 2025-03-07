@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 
 var bankAccountSchema = new Schema({
     type: {type: String},
-    accountId: {type: String}
+    accountId: {type: String},
+    balance: {type: Number}
 })
 
 
