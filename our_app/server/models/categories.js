@@ -4,9 +4,8 @@ var bcrypt = require('bcryptjs');
 var Schema  = mongoose.Schema;
 
 var categorySchema = new Schema({
-    user_id: {type: Schema.Types.ObjectId, ref: "User", required: True},
-    categories: {type: [String], default: [], required: True} 
-})
+    name: {type: String}
+});
 
-const Categories = mongoose.model("categories". categorySchema); 
-module.exports = Categories; 
+const Category = mongoose.model("Categories". categorySchema,"categories"); 
+module.exports = Category; 

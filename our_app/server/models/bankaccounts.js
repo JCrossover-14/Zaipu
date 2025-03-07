@@ -2,10 +2,10 @@ var mongoose = require("mongoose")
 var Schema = mongoose.Schema;
 
 var bankAccountSchema = new Schema({
-    user_id: {type: Schema.Types.ObjectId, ref: "User", required: True},
-    accounts: {type: [String], default: [], required: True}
+    type: {type: String},
+    accountId: {type: String}
 })
 
 
-const BankAccounts = mongoose.model("bankAccounts", bankAccountSchema); 
-module.exports = BankAccounts; 
+const BankAccount = mongoose.model("bankAccount", bankAccountSchema); 
+module.exports = BankAccount; 

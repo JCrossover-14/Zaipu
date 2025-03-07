@@ -4,8 +4,9 @@ var bcrypt = require('bcryptjs');
 var Schema  = mongoose.Schema;
 var userSchema = new Schema({
     username:{type:String, required:true},
-    email:{type:String, required:true},
-    passwordHash:{type:String, required:true}
+    email:{type:String},
+    passwordHash:{type:String, required:true},
+    accountIds:{type: List[String]},
 });
 
 userSchema.methods.isValidPassword = async function(password) {
@@ -13,6 +14,5 @@ userSchema.methods.isValidPassword = async function(password) {
 }
 
 
-
-const Users = mongoose.model("Users", userSchema);
+const Users = mongoose.model("User", userSchema);
 module.exports= Users;
