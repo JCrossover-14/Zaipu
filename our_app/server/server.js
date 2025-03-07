@@ -28,3 +28,12 @@ db.once("open", () =>{
     console.log("Connected to Mongo");
 })
 
+const bankaccountRoute = require("./routers/bankaccounts"); 
+const categoriesRoute = require("./routers/categories");
+const purchasesRoute = require("./routers/purchase");
+const usersRoute = require("./routers/users")
+
+app.use("/bank", bankaccountRoute);
+app.use("/categories", categoriesRoute); 
+app.use("/purchases", purchasesRoute);
+app.use("/user", usersRoute); 
