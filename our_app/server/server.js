@@ -93,7 +93,8 @@ app.get("/userInfo", async (req,res) =>{
   console.log("user of session is ",req.session.user);
   if(req.session.user){
     try{
-      const user = await User.findById(req.session.userId);
+      const user = await User.findOne({username: req.session.user.username});
+      console.log("user found is ",user);
       if (!user){
         return res.status(404).send("User not found");
       }
@@ -103,6 +104,7 @@ app.get("/userInfo", async (req,res) =>{
         username: user.username,
         id: user._id,
       });
+
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal server error");

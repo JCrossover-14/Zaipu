@@ -25,13 +25,16 @@ router.post("/create", async (req, res) =>{
 router.put("/addAccount", async (req, res) => {
     const accountId = req.body.accountId; 
     const username = req.body.username; 
-    let account = await BankAccounts.find({accountId: accountId}); 
+    console.log("add account req is ", req.body);
+    let account = await BankAccounts.findOne({accountId: accountId}); 
     if(account.length == 0){
         res.sendStatus(400); // Bad Request: Account doesn't exist 
     }
+    let to_insert = new mongoose.Types.ObjectId(account._id);
+    console.log("account is ", account, "_id is ",account._id," we are inserting ", to_insert);
     let result = await Users.findOneAndUpdate(
         {username: username}, 
-        {$push: { accountIds: new mongoose.Types.ObjectId(account._id)}},
+        {$push: { accountIds: to_insert}},
         {new: true, useFindAndModify: false},
     )
     res.send(result)
@@ -88,10 +91,23 @@ module.exports = router;
 
 // get accounts 
 router.get("/getAccounts", async (req, res) => {
-    const username = req.body.username; 
+    const username = req.query.username; 
+    console.log("getting accounts with req body ",req.query);
+    //console.log("trying to find accounts for username ",username);
 
-    let userObject = await Users.find({username: username}).populate("accountIds").exec(); 
+    //let userObject = await Users.find({username: username}).populate("accountIds").exec(); 
     
-    console.log(userObject);
-    res.send(userObject); 
-})
+    let userObject = await Users.findOne({username:username});
+
+    const objectIdArray = userObject.accountIds.map(id => new mongoose.Types.ObjectId(id));
+    console.log(objectIdArray);
+
+    let accounts = await BankAccounts.find({
+        _id: { $in: objectIdArray}
+    });
+
+    //const accountIdsAsStrings = accounts.map(account=>account.accountId);
+    //console.log(accountIdsAsStrings);
+
+    res.json(accounts);
+})  
