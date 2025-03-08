@@ -88,12 +88,6 @@ app.post("/register", async (req, res) => {
     res.send("hi");
   })
 
-<<<<<<< HEAD
-  app.listen(8000, () => {
-    console.log(`App listening on port 8000`)
-  });
-  
-=======
   const server = app.listen(8000, () => {
     console.log("Server started at http://localhost:8000");
   });
@@ -115,4 +109,3 @@ app.post("/register", async (req, res) => {
         });
     });
   });
->>>>>>> refs/remotes/origin/main
