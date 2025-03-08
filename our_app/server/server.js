@@ -88,7 +88,31 @@ app.post("/register", async (req, res) => {
     res.send("hi");
   })
 
+<<<<<<< HEAD
   app.listen(8000, () => {
     console.log(`App listening on port 8000`)
   });
   
+=======
+  const server = app.listen(8000, () => {
+    console.log("Server started at http://localhost:8000");
+  });
+  
+  // SIGINT signal handler
+  process.on("SIGINT", function () {
+    server.close(() => {
+      console.log("Server closed.");
+      //removed callback use promise
+      mongoose.connection
+        .close()
+        .then(() => {
+          console.log("MongoDB disconnected on app termination");
+          process.exit(0);
+        })
+        .catch((error) => {
+          console.error("Error during disconnection", error);
+          process.exit(1);
+        });
+    });
+  });
+>>>>>>> refs/remotes/origin/main
