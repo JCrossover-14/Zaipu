@@ -90,8 +90,9 @@ module.exports = router;
 router.get("/getAccounts", async (req, res) => {
     const username = req.body.username; 
 
-    let userObject = await Users.find({username: username}).populate("accountIds").exec(); 
+    let userObject = await Users.findOne({username: username}).populate("accountIds"); 
+
     
-    console.log(userObject);
-    res.send(userObject); 
+    
+    res.send(userObject.accountIds); 
 })
