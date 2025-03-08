@@ -3,10 +3,11 @@ import axios from "axios";
 import '../../src/App.css' 
 import BalanceTable from "./BalanceTable";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
+import AddAccountBtn from "./AddAccountBtn";
 
 function Balances(){
     const [accounts, setAccounts] = useState([]);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(()=>{
         axios.get("http://localhost:8000/userInfo", {withCredentials:true})
@@ -14,8 +15,11 @@ function Balances(){
                 fetchAccounts(response.data.username);
             })
             .catch(()=>console.log("User not logged in"));
-    },[]);
-
+    },[refreshKey]);
+    
+    const refresh = () => {
+        setRefreshKey(prevKey => prevKey + 1); 
+    }
     const fetchAccounts = async (username) => {
         try{
             const res = await axios.get("http://localhost:8000/user/getAccounts",{
@@ -36,6 +40,7 @@ function Balances(){
         totalBalance+=account.balance; 
     })
 
+    
 
     return <div id = "balances-container">
         <div id="balances-header">
@@ -45,9 +50,10 @@ function Balances(){
                 </h1>
             </div>
             <div id = "balances-header-2">
-                <button id = "addAccount-btn">
-                    Add New Bank     <AddCircleIcon/> 
-                </button>
+                {/* <button id = "addAccount-btn">
+                    Add New Bank   <AddCircleIcon/> 
+                </button> */}
+                <AddAccountBtn refresh={refresh}/>
             </div>
         </div>
         <div>
