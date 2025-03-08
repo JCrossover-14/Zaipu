@@ -7,7 +7,7 @@ var userSchema = new Schema({
     email:{type:String},
     passwordHash:{type:String, required:true},
     accountIds: {type: [{ type: Schema.Types.ObjectId, ref: "BankAccounts"}], default: []}, 
-    categories: {type: [String], default: []}, 
+    categories: {type: [String], default: ["Housing/Utilities","Food/Groceries","Transportation","Shopping/Personal Expenses","Healthcare/Insurance", "Debt/Loans", "Entertainment/Leisure"]}, 
 });
 
 userSchema.methods.isValidPassword = async function(password) {
