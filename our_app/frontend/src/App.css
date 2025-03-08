@@ -4,3 +4,21 @@
   /* padding: 2rem; */
   /* text-align: center; */
 }
+
+
+/* HOME PAGE */
+#home-container{
+  display: flex;
+  flex-direction: column; 
+}
+
+#row-container{ 
+  display: flex; 
+  flex-direction: row;
+  height: 100vh;
+}
+
+.column{ 
+  flex: 1; 
+  border: 1px solid black;
+}

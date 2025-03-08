@@ -37,9 +37,9 @@ function OurApp() {
 
 
   return (
-    <div>
+    <>
       {render}
-    </div>
+    </>
   );
 }
 
