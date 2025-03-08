@@ -89,6 +89,8 @@ app.post("/login", async (req,res)=>{
 
 
 app.get("/userInfo", async (req,res) =>{
+  //console.log("req body for checking session is ", req);
+  console.log("user of session is ",req.session.user);
   if(req.session.user){
     try{
       const user = await User.findById(req.session.userId);
@@ -98,9 +100,8 @@ app.get("/userInfo", async (req,res) =>{
 
       res.json({
         email: user.email,
-        username: root.username,
+        username: user.username,
         id: user._id,
-        role:user.role,
       });
     } catch (error) {
       console.error(error);
