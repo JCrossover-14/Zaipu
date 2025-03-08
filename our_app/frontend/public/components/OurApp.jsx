@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import WelcomePage from "./WelcomePage";
 import Register from "./Register";
 import Login from "./Login";
+import Home from "./Home";
 
 function OurApp() {
   const [currentPage, setCurrentPage] = useState("welcome");
@@ -27,9 +28,14 @@ function OurApp() {
     case "guest":
       render = <div></div>;
       break;
+    case "home":
+      render = <div></div>;
+      break; 
     default:
       render = <WelcomePage navigateToPage={navigateToPage} />;
   }
+
+  render = <Home/>; 
 
   return (
     <div>
