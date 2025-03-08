@@ -29,13 +29,12 @@ function OurApp() {
       render = <Home/>;
       break;
     case "home":
-      render = <div></div>;
+      render = <Home/>;
       break; 
     default:
       render = <WelcomePage navigateToPage={navigateToPage} />;
   }
 
-  //render = <Home/>;
   return (
     <>
       {render}

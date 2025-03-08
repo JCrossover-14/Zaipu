@@ -3,7 +3,7 @@ import axios from "axios";
 import { Accordion, AccordionSummary, AccordionDetails, Typography,
     Card, CardContent, Box} from "@mui/material";
 
-import ExapandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 
 const BankAccountsList = () => {
@@ -26,7 +26,6 @@ const BankAccountsList = () => {
         try{
             const res = await axios.get("http://localhost:8000/user/getAccounts",{
                 params: {username: username},
-                withCredentials: true,
             });
             console.log("res data is ", res.data, "type of res.data is ", typeof res.data);
             setAccounts(res.data);
@@ -69,7 +68,7 @@ const BankAccountsList = () => {
     
                 return (
                     <Accordion key={account.accountId} onChange={() => fetchTransactions(account.accountId)}>
-                        <AccordionSummary expandIcon={<ExapandMoreIcon />}>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <Card sx={{ width: "100%", backgroundColor: `hsl(${index * 60},70%,80%)` }}>
                                 <CardContent>
                                     <Typography variant="h6">{account.type} Account</Typography>
