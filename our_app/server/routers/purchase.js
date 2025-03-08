@@ -18,7 +18,7 @@ router.post("/addPurchase", async (req, res)=>{
 
     purchaseAttributes = {
         type: type,
-        accountId: new mongoose.Types.ObjectId(accountId),
+        accountId: mongoose.Types.ObjectId(accountId),
         amount: amount,
         date: date,
         category: category,

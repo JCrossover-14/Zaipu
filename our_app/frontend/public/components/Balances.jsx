@@ -3,10 +3,11 @@ import axios from "axios";
 import '../../src/App.css' 
 import BalanceTable from "./BalanceTable";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
+import AddAccountBtn from "./AddAccountBtn";
 
 function Balances(){
     const [accounts, setAccounts] = useState([]);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(()=>{
         axios.get("http://localhost:8000/userInfo", {withCredentials:true})
@@ -14,8 +15,11 @@ function Balances(){
                 fetchAccounts(response.data.username);
             })
             .catch(()=>console.log("User not logged in"));
-    },[]);
-
+    },[refreshKey]);
+    
+    const refresh = () => {
+        setRefreshKey(prevKey => prevKey + 1); 
+    }
     const fetchAccounts = async (username) => {
         try{
             const res = await axios.get("http://localhost:8000/user/getAccounts",{
@@ -36,21 +40,27 @@ function Balances(){
         totalBalance+=account.balance; 
     })
 
+    
 
     return <div id = "balances-container">
         <div id="balances-header">
-            <div>Bank Balance</div>
-            <div>
-                <button id = "addAccount-btn">
-                    Add <AddCircleIcon/> 
-                </button>
+            <div id = "balances-header-1">
+                <h1>
+                    Bank Balances
+                </h1>
+            </div>
+            <div id = "balances-header-2">
+                {/* <button id = "addAccount-btn">
+                    Add New Bank   <AddCircleIcon/> 
+                </button> */}
+                <AddAccountBtn refresh={refresh}/>
             </div>
         </div>
         <div>
-            TABLE
+            <BalanceTable bankAccounts={bankAccounts}/>
         </div>
         <div>
-            Total Balance: ${totalBalance.toFixed(2)}
+            Total Balance: ${totalBalance.toLocaleString(undefined, {maximumFractionDigits:2})}
         </div>
     </div>;
 }
