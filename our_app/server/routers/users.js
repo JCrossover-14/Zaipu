@@ -31,10 +31,9 @@ router.put("/addAccount", async (req, res) => {
     }
     let result = await Users.findOneAndUpdate(
         {username: username}, 
-        {$push: { accountIds: accountId}},
+        {$push: { accountIds: new mongoose.Types.ObjectId(account._id)}},
         {new: true, useFindAndModify: false},
     )
-    console.log(result)
     res.send(result)
 })
 
@@ -42,18 +41,17 @@ router.put("/addAccount", async (req, res) => {
 router.put("/deleteAccount", async (req, res) =>{
     const accountId = req.body.accountId; 
     const username = req.body.username; 
-    let account = await BankAccounts.find({accountId: accountId}); 
+    let account = await BankAccounts.find({_id: new mongoose.Types.ObjectId(accountId)}); 
     if(account.length == 0){
         res.sendStatus(400); // Bad Request: Account doesn't exist 
     }
 
     let result = await Users.findOneAndUpdate(
         {username: username}, 
-        {$pull: { accountIds: accountId}},
+        {$pull: { accountIds: new mongoose.Types.ObjectId(accountId)}},
         {new: true, useFindAndModify: false},
     );
 
-    console.log(result);
     res.send(result);
 })
 
@@ -87,3 +85,13 @@ router.put("/deleteCategory", async (req, res) =>{
 
 
 module.exports = router;
+
+// get accounts 
+router.get("/getAccounts", async (req, res) => {
+    const username = req.body.username; 
+
+    let userObject = await Users.find({username: username}).populate("accountIds").exec(); 
+    
+    console.log(userObject);
+    res.send(userObject); 
+})

@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 const purchaseSchema = Schema({
     type: {type: String},
-    accountId: {type: String},
+    accountId: {type: Schema.Types.ObjectId, ref: "BankAccounts"},
     amount: {type: Number},
     date: {type: Date},
     category: {type: String}
