@@ -3,7 +3,11 @@ import { Line } from 'react-chartjs-2'; // Import Line chart from chart.js
 import { Card, CardContent, Typography } from '@mui/material';
 import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
 
+ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
+
+
 const Graph = ({data}) => {
+    console.log("data is ", data);
     const chartData = {
         labels: data.map((item) => new Date(item.date).toLocaleDateString()),
         datasets:[

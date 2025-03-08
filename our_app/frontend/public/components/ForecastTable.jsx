@@ -4,7 +4,7 @@ import { Accordion, AccordionSummary, AccordionDetails, Typography,
     Card, CardContent, Box} from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import Graph from "./Graph";
 
 const ForecastTable = () => {
     const [transactions, setTransactions] = useState([]);
@@ -12,8 +12,10 @@ const ForecastTable = () => {
 
     useEffect(() => {
         const fetchData = async() => {
+            console.log("trying to fetch from userInfo");
             const user = await axios.get("http://localhost:8000/userInfo", {withCredentials:true});
-            const accounts = await axios.get("http://localhostL8000/user/getAccounts",{
+            console.log("user is ", user);
+            const accounts = await axios.get("http://localhost:8000/user/getAccounts",{
                 params: {username: user.data.username},
             });
         let accountPrimaryKeys = []
@@ -33,9 +35,10 @@ const ForecastTable = () => {
             }
         }
         setTransactions(newTransactions);
+        console.log("transactions are now ",transactions);
     };
     
-    fetchData();
+     fetchData();
     },[]);
 
     const categorizeTransactions = () => {
@@ -70,33 +73,35 @@ const ForecastTable = () => {
             getForecastForCategories();
         }
     }, [transactions])
+
+    return (
+        <Box>
+            <Card>
+                <CardContent>
+                    <Typography variant = "h6"> Forecasted Future Balance</Typography>
+                    {forecastData.map((data,index) => (
+                        <Accordion key = {index}>
+                            <AccordionSummary
+                                expandIcon = {<ExpandMoreIcon />}
+                                aria-controls = {`panel-${data.category}-content`}
+                                id = {`panel-${data.category}-header`}>
+                                    <Typography>{data.category}</Typography>
+                            </AccordionSummary>
+    
+                            <AccordionDetails>
+                                <Graph
+                                    data = {forecastData}
+                                />
+                            </AccordionDetails>
+                        </Accordion>
+                    ))}
+                </CardContent>
+            </Card>
+        </Box>
+    );
 }
 
 
-return (
-    <Box>
-        <Card>
-            <CardContent>
-                <Typography variant = "h6"> Forecasted Future Balance</Typography>
-                {forecastData.map((data,index) => (
-                    <Accordion key = {index}>
-                        <AccordionSummary
-                            expandIcon = {<ExpandMoreIcon />}
-                            aria-controls = {`panel-${data.category}-content`}
-                            id = {`panel-${data.category}-header`}>
-                                <Typography>{data.category}</Typography>
-                        </AccordionSummary>
 
-                        <AccordionDetails>
-                            <Graph
-                                data = {forecastData}
-                            />
-                        </AccordionDetails>
-                    </Accordion>
-                ))}
-            </CardContent>
-        </Card>
-    </Box>
-)
 
 export default ForecastTable;

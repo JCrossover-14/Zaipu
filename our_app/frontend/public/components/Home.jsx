@@ -4,6 +4,7 @@ import BankAccountsList from './BankAccountsList';
 import Balances from './Balances';
 import Navbar from './Navbar';
 import TransactionDistribution from './TransactionDistribution';
+import ForecastTable from './ForecastTable';
 function Home(){
     return (<div id = "container">
         <Navbar/>
@@ -13,8 +14,10 @@ function Home(){
             </div>
             <div className="column">
                 <TransactionDistribution/>
+                <ForecastTable/>
             </div>
             <div className="column"><BankAccountsList/></div>
+
         </div>
     </div>);
     
