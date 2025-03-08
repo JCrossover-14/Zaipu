@@ -17,9 +17,9 @@ router.post("/addAccount", async (req, res) => {
         balance: balance
     }
 
-    const result = await BankAccounts.insertOne(accountAtrributes);
+    const result = await BankAccounts.insertOne(accountAttributes);
     // return result 
-    res.send("hi")
+    res.send(result)
 })
 
 // get accounts by accountId 
