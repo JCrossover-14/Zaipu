@@ -65,11 +65,14 @@ app.use("/deposit", depositRoute);
 app.post("/login", async (req,res)=>{
     try{
       console.log("req body for logging in is ", req.body);  
-      const user = await User.findOne({username: req.body.username});
+      var user = await User.findOne({username: req.body.identifier});
         if(!user) {
+          console.log("trying to find email cant find username");
+          user = await User.findOne({email: req.body.identifier})  
+          if(!user){
             return res.status(401).send("Invalid email or password");
+          }
         }
-
         const isMatch = await bcrypt.compare(req.body.password, user.passwordHash);
         if(!isMatch){
             return res.status(401).send("Invalid email or password.");

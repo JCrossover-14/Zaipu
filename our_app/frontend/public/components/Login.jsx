@@ -3,7 +3,7 @@ import axios from "axios";
 import { Container, TextField, Button, Typography, Paper, Box } from "@mui/material";
 
 function Login({ navigateToPage }) {
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
 
   useEffect(() => {
@@ -22,16 +22,16 @@ function Login({ navigateToPage }) {
     e.preventDefault();
 
     try {
-      console.log("trying to log in with ", email, " and ", password);
+      console.log("trying to log in with ", identifier, " and ", password);
       await axios.post(
         "http://localhost:8000/login",
-        { email, password },
+        { identifier, password },
         { withCredentials: true }
       );
       navigateToPage("guest");
     } catch (error) {
       if (error.response?.status === 401) {
-        alert("Invalid email or password.");
+        alert("Invalid email/username or password.");
       } else {
         console.error("Login error", error);
         alert("An error occurred during login.");
@@ -47,12 +47,12 @@ function Login({ navigateToPage }) {
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <TextField
-            type="email"
-            label="Email"
+            type="text"
+            label="Username or email"
             variant="outlined"
             fullWidth
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
             required
           />
           <TextField

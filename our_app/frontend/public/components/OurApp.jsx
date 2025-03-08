@@ -35,7 +35,6 @@ function OurApp() {
       render = <WelcomePage navigateToPage={navigateToPage} />;
   }
 
-  render = <Home/>; 
 
   return (
     <div>
