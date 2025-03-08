@@ -5,7 +5,11 @@
   /* text-align: center; */
 }
 
-
+#container{
+  display: flex; 
+  flex-direction: column;
+  height: 100vh;
+}
 /* HOME PAGE */
 #home-container{
   display: flex;
@@ -20,7 +24,6 @@
 
 .column{ 
   flex: 1; 
-  border: 1px solid black;
   display: flex; 
   flex-direction: column;
   align-items: center;
@@ -66,4 +69,24 @@
 
 #addAccount-btn:hover {
   background-color: #0056b3;
+}
+
+/* NAVBAR */
+#navbar{
+  display: flex; 
+  flex-direction: row;
+  height: 10%;
+  padding: 20px 40px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px black solid;
+}
+
+#logout-btn{
+  background-color: #007BFF;
+  color: white;
+}
+
+#logout-btn:hover{
+  background-color: blue;
 }
