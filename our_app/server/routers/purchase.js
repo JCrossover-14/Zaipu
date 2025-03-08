@@ -20,7 +20,7 @@ router.post("/addPurchase", async (req, res)=>{
         type: type,
         accountId: new mongoose.Types.ObjectId(accountId),
         amount: amount,
-        date: date,
+        date: new Date(date),
         category: category,
     }
 

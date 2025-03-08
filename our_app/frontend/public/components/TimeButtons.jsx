@@ -1,11 +1,27 @@
-function TimeButtons({updateDaysFilter}){
-    return <div id="time-btns-div">
-        <button class = "time-btn" onClick={() => updateDaysFilter(30)}>1M</button>
-        <button class = "time-btn" onClick={() => updateDaysFilter(90)}>3M</button>
-        <button class = "time-btn" onClick={() => updateDaysFilter(160)}>6M</button>
-        <button class = "time-btn" onClick={() => updateDaysFilter(365)}>1Y</button>
-        <button class = "time-btn" onClick={() => updateDaysFilter(99999)}>All</button>
-    </div>;
-}
-
-export default TimeButtons; 
+function TimeButtons({ daysFilter, updateDaysFilter }) {
+    const timeOptions = [
+      { label: "1W", days: 7 },
+      { label: "1M", days: 30 },
+      { label: "3M", days: 90 },
+      { label: "6M", days: 180 },
+      { label: "1Y", days: 365 },
+      { label: "All", days: 99999 },
+    ];
+  
+    return (
+      <div id="time-btns-div">
+        {timeOptions.map(({ label, days }) => (
+          <button
+            key={days}
+            className={`time-btn ${daysFilter == days ? "selected" : ""}`}
+            onClick={() => updateDaysFilter(days)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+    );
+  }
+  
+  export default TimeButtons;
+  

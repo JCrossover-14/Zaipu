@@ -3,10 +3,10 @@ var Schema = mongoose.Schema;
 
 
 const purchaseSchema = Schema({
-    type: {type: String},
+    type: {type: String, required: true},
     accountId: {type: Schema.Types.ObjectId, ref: "BankAccounts"},
-    amount: {type: Number},
-    date: {type: Date},
+    amount: {type: Number, required: true},
+    date: {type: Date, required: true},
     category: {type: String},
 })
 
