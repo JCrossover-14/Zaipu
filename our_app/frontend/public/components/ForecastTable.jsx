@@ -98,3 +98,5 @@ return (
         </Card>
     </Box>
 )
+
+export default ForecastTable;
