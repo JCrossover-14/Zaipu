@@ -29,7 +29,9 @@ router.post("/addPurchase", async (req, res)=>{
 })
 
 router.get("/getPurchasesByAccountId", async (req,res) =>{
-    accountId = req.query.accountId;
+    console.log("getting purchases req body is ",req.query);
+    const accountId = req.query.accountId;
+    console.log("accountId is ",accountId);
 
     try{
         const purchases = await Purchase.find({accountId: new mongoose.Types.ObjectId(accountId)});

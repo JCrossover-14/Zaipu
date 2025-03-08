@@ -206,15 +206,35 @@ async function generateData() {
 
 // Function to generate and add deposits (simulate incoming deposits)
 async function generateDeposits() {
+    let depositFrequencies = [14, 30]; // Biweekly or Monthly deposits
+    let depositAmounts = { min: 800, max: 3000 }; // Random salary range
+    
     for (let user of default_users) {
-        for (let accountId of default_accounts) { // Replace with actual account IDs
-            const depositAmount = Math.floor(Math.random() * 500) + 100;  // Random deposit between 100-600
-            const depositDate = moment().format("YYYY-MM-DD");
-            //console.log("we are looking for bank account with id ", accountId);
-            await addDeposit(accountId, depositAmount, depositDate);
+        let frequency = depositFrequencies[Math.floor(Math.random() * depositFrequencies.length)];
+        
+        for (let day = 0; day < 365; day += frequency) {
+            const depositDate = moment().startOf("year").add(day, 'days').format("YYYY-MM-DD");
+            const amount = Math.floor(Math.random() * (depositAmounts.max - depositAmounts.min)) + depositAmounts.min;
+            
+            let randomAccountId = default_accounts[Math.floor(Math.random() * default_accounts.length)];
+            let account;
+            try {
+                account = await BankAccounts.findOne({ accountId: randomAccountId });
+            } catch (error) {
+                console.error("Error finding account for deposit:", error);
+                continue;
+            }
+            
+            if (account) {
+                await addDeposit(account, amount, depositDate);
+                console.log(`Deposit added: ${amount} to ${randomAccountId} on ${depositDate}`);
+            }
         }
     }
 }
+
+generateDeposits();
+
 
 // Call the function to generate and store data
 generateData();
