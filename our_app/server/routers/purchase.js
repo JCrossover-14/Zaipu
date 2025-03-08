@@ -14,13 +14,14 @@ router.post("/addPurchase", async (req, res)=>{
     amount = req.body.amount;
     date = req.body.date;
     category = req.body.category;
+    description = req.body.description;
 
     purchaseAttributes = {
         type: type,
         accountId: mongoose.Types.ObjectId(accountId),
         amount: amount,
         date: date,
-        category: category
+        category: category,
     }
 
     const result = await Purchase.insertOne(purchaseAttributes);

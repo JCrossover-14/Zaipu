@@ -7,7 +7,7 @@ const purchaseSchema = Schema({
     accountId: {type: Schema.Types.ObjectId, ref: "BankAccounts"},
     amount: {type: Number},
     date: {type: Date},
-    category: {type: String}
+    category: {type: String},
 })
 
 const Purchases = mongoose.model("Purchases", purchaseSchema);

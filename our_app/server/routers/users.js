@@ -26,6 +26,7 @@ router.put("/addAccount", async (req, res) => {
     const accountId = req.body.accountId; 
     const username = req.body.username; 
     let account = await BankAccounts.find({accountId: accountId}); 
+    console.log("req body is ", req.body, " with account ",account);
     if(account.length == 0){
         res.sendStatus(400); // Bad Request: Account doesn't exist 
     }
