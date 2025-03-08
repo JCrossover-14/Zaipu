@@ -6,7 +6,7 @@ import PieGraph from "./PieGraph";
 function TransactionDistribution(){
     const [transactions, setTransactions] = useState([]); 
     const [daysFilter, setDaysFilter] = useState(99999); 
-    console.log("daysFilter", daysFilter);
+    //console.log("daysFilter", daysFilter);
 
     const updateDaysFilter = (days) => {
         setDaysFilter(days); 
@@ -29,7 +29,7 @@ function TransactionDistribution(){
                 let key = accountPrimaryKeys[i]; 
                 let matchingTransactions = await axios.get("http://localhost:8000/purchases/getPurchasesByAccountId", 
                     {params: {accountId: key}})
-                console.log("key: ", key, matchingTransactions);
+                //console.log("key: ", key, matchingTransactions);
                 matchingTransactions = matchingTransactions.data; 
                
                 for(let j = 0; j < matchingTransactions.length; j++){
@@ -57,7 +57,7 @@ function TransactionDistribution(){
 
     for(let i = 0; i < transactions.length; i++){
         let transaction = transactions[i]; 
-        console.log(getDaysDifference(transaction.date))
+        //console.log(getDaysDifference(transaction.date))
         if(getDaysDifference(transaction.date) <= daysFilter){
             pieGraphTransactions.push(transaction);
         }
