@@ -32,24 +32,38 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  border: 1px black solid;
 }
 
 #balances-header{
   display: flex;
   flex-direction: row; 
-  border: 1px red solid; 
+  align-items: center;
+}
+
+#balances-header-1{
+  flex:1; 
+}
+
+#balances-header-2{
+  flex:1;
 }
 
 #addAccount-btn{
-  display: "flex",
-  justifyContent: "center",
-  width: "150px",  // Adjust width as needed
-  height: "50px",  // Adjust height as needed
-  textAlign: "center",
-  border: "none",
-  backgroundColor: "#007BFF",
-  color: "white",
-  fontSize: "16px",
-  cursor: "pointer"
+  display: flex;
+  align-items: center;   /* Centers items vertically */
+  justify-content: center; /* Centers items horizontally */
+  gap: 8px; /* Space between text and icon */
+  padding: 5px 10px;
+  border: none;
+  background-color: #007BFF;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  height: 20%;
+}
+
+
+#addAccount-btn:hover {
+  background-color: #0056b3;
 }

@@ -39,18 +39,22 @@ function Balances(){
 
     return <div id = "balances-container">
         <div id="balances-header">
-            <div>Bank Balance</div>
-            <div>
+            <div id = "balances-header-1">
+                <h1>
+                    Bank Balances
+                </h1>
+            </div>
+            <div id = "balances-header-2">
                 <button id = "addAccount-btn">
-                    Add <AddCircleIcon/> 
+                    Add New Bank     <AddCircleIcon/> 
                 </button>
             </div>
         </div>
         <div>
-            TABLE
+            <BalanceTable bankAccounts={bankAccounts}/>
         </div>
         <div>
-            Total Balance: ${totalBalance.toFixed(2)}
+            Total Balance: ${totalBalance.toLocaleString(undefined, {maximumFractionDigits:2})}
         </div>
     </div>;
 }
