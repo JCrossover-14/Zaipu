@@ -91,23 +91,9 @@ module.exports = router;
 
 // get accounts 
 router.get("/getAccounts", async (req, res) => {
-    const username = req.query.username; 
-    console.log("getting accounts with req body ",req.query);
-    //console.log("trying to find accounts for username ",username);
+    const username = req.body.username; 
 
-    //let userObject = await Users.find({username: username}).populate("accountIds").exec(); 
+    let accounts = await Users.findOne({username: username}).populate("accountIds").exec(); 
     
-    let userObject = await Users.findOne({username:username});
-
-    const objectIdArray = userObject.accountIds.map(id => new mongoose.Types.ObjectId(id));
-    console.log(objectIdArray);
-
-    let accounts = await BankAccounts.find({
-        _id: { $in: objectIdArray}
-    });
-
-    //const accountIdsAsStrings = accounts.map(account=>account.accountId);
-    //console.log(accountIdsAsStrings);
-
     res.json(accounts);
 })  
