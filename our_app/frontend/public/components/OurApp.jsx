@@ -26,7 +26,7 @@ function OurApp() {
       render = <Login navigateToPage={navigateToPage} />;
       break;
     case "guest":
-      render = <div></div>;
+      render = <Home/>;
       break;
     case "home":
       render = <div></div>;
@@ -35,7 +35,7 @@ function OurApp() {
       render = <WelcomePage navigateToPage={navigateToPage} />;
   }
 
-  render = <Home/>;
+  //render = <Home/>;
   return (
     <>
       {render}
