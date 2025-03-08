@@ -52,10 +52,10 @@ db.once("open", () =>{
     console.log("Connected to Mongo");
 })
 
-const bankaccountRoute = require("./routers/bankaccounts"); 
-const purchasesRoute = require("./routers/purchase");
-const usersRoute = require("./routers/users");
-const depositRoute = require("./routers/deposit");
+const bankaccountRoute = require("./routers/bankaccounts.js"); 
+const purchasesRoute = require("./routers/purchase.js");
+const usersRoute = require("./routers/users.js");
+const depositRoute = require("./routers/deposit.js");
 
 app.use("/accounts", bankaccountRoute);
 app.use("/purchases", purchasesRoute);
@@ -90,11 +90,11 @@ app.post("/login", async (req,res)=>{
 
 app.get("/userInfo", async (req,res) =>{
   //console.log("req body for checking session is ", req);
-  console.log("user of session is ",req.session.user);
+  //console.log("user of session is ",req.session.user);
   if(req.session.user){
     try{
       const user = await User.findOne({username: req.session.user.username});
-      console.log("user found is ",user);
+      //console.log("user found is ",user);
       if (!user){
         return res.status(404).send("User not found");
       }

@@ -33,39 +33,50 @@ const BankAccountsList = () => {
         }
     };
 
-    useEffect(() => {
-        console.log("accounts is now ", accounts);
-    }, [accounts]);
+    
 
     const fetchTransactions = async (accountId) => {
-        if (transactions[accountId]) return;
-        try{
-            const depositsRes = await axios.get("http://localhost:8000/deposit/getDepositsByAccountId",{
-                accountId: {accountId},
-                withCredentials: true,
+        try {
+            console.log("Before getting deposits");
+            const depositsRes = await axios.get("http://localhost:8000/deposit/getDepositsByAccountId", {
+                params: { accountId: accountId },
             });
-
-            const purchasesRes = await axios.get("http://localhost:8000/purchases/getPurchasesByAccountId",{
-                accountId: {accountId},
-                withCredentials: true,
-            })
-
-            setTransactions(prev => ({
+    
+            console.log("Before getting purchases");
+            const purchasesRes = await axios.get("http://localhost:8000/purchases/getPurchasesByAccountId", {
+                params: { accountId: accountId },
+            });
+    
+            // Combine deposits and purchases, then sort by date
+            const combinedTransactions = [
+                ...depositsRes.data,
+                ...purchasesRes.data
+            ].sort((a, b) => new Date(b.date) - new Date(a.date));
+            console.log("combined are ", combinedTransactions);
+            // Update state with combined and sorted transactions
+            setTransactions((prev) => ({
                 ...prev,
-                [accountId]: [...depositsRes.data, ...purchasesRes.data].sort((a,b) => new Date(b.date) - new Date(a.date))
+                [accountId]: combinedTransactions,
             }));
+    
         } catch (error) {
             console.error("Error fetching transactions", error);
         }
     };
+
+    useEffect(() => {
+        console.log("accounts is now ", accounts);
+    }, [accounts]);
+
     return (
         <Box sx={{ width: "100%", maxWidth: 600, margin: "auto", mt: 4 }}>
             {accounts.map((account, index) => {
                 const accountIdStr = account.accountId.toString(); 
                 const maskedAccountId = `**** **** **** ${accountIdStr.slice(-4)}`;
+                console.log("account._id is ", account._id);
     
                 return (
-                    <Accordion key={account.accountId} onChange={() => fetchTransactions(account.accountId)}>
+                    <Accordion key={account.accountId} onChange={() => fetchTransactions(account._id)}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <Card sx={{ width: "100%", backgroundColor: `hsl(${index * 60},70%,80%)` }}>
                                 <CardContent>
@@ -77,8 +88,8 @@ const BankAccountsList = () => {
                         </AccordionSummary>
     
                         <AccordionDetails sx={{ maxHeight: 200, overflowY: "auto" }}>
-                            {transactions[account.accountId] ? (
-                                transactions[account.accountId].map((txn, i) => (
+                            {transactions[account._id] ? (
+                                transactions[account._id].map((txn, i) => (
                                     <Typography key={i} variant="body2">
                                         {txn.type}: ${txn.amount} - {new Date(txn.date).toLocaleDateString()}
                                     </Typography>

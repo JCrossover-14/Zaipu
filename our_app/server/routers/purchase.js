@@ -18,7 +18,7 @@ router.post("/addPurchase", async (req, res)=>{
 
     purchaseAttributes = {
         type: type,
-        accountId: mongoose.Types.ObjectId(accountId),
+        accountId: new mongoose.Types.ObjectId(accountId),
         amount: amount,
         date: date,
         category: category,
@@ -29,14 +29,16 @@ router.post("/addPurchase", async (req, res)=>{
 })
 
 router.get("/getPurchasesByAccountId", async (req,res) =>{
-    console.log("getting purchases req body is ",req.body);
-    accountId = req.body.accountId;
+    console.log("getting purchases req body is ",req.query);
+    const accountId = req.query.accountId;
+    console.log("accountId is ",accountId);
 
     try{
-        const purchases = await Purchase.find({accountId: accountId});
-        //console.log("result is ",purchases);
+        console.log("before querying");
+        const purchases = await Purchase.find({ accountId: new mongoose.Types.ObjectId(accountId)});
+        console.log("result is ",purchases);
         res.json(purchases);
-    } catch(error){
+    } catch (error) {
         res.status(500).send("an error occured somehow");
     }
 })

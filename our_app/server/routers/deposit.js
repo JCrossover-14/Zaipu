@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var express = require('express');
 let router = express.Router();
-let Deposit = require('../models/deposit.js');
+const Deposit = require('../models/deposit.js');
 
 
 router.post("/addDeposit", async (req, res) =>{
@@ -23,17 +23,27 @@ router.post("/addDeposit", async (req, res) =>{
 })
 
 
-router.get("/getDepositsByAccountId", async (req,res) =>{
-    console.log("getting purchases req body is ",req.body);
-    accountId = req.body.accountId;
+router.get("/getDepositsByAccountId", async (req, res) => {
+    console.log("getting deposits req query is ", req.query);
+    const accountId = req.query.accountId;
 
-    try{
-        const deposits = await Deposit.find({accountId: accountId});
-        //console.log("result is ",purchases);
-        res.json(deposits);
-    } catch(error){
-        res.status(500).send("an error occured somehow");
+    if (!mongoose.Types.ObjectId.isValid(accountId)) {
+        console.log("accountId is not valid");
+        return res.status(400).send("Invalid accountId format");
+    } else {
+        console.log("accountId is valid");
     }
-})
+
+    try {
+        console.log("trying to find in deposits");
+        const deposits = await Deposit.find({ accountId: new mongoose.Types.ObjectId(accountId) });
+        console.log("found deposits: ", deposits);
+        res.json(deposits);
+    } catch (error) {
+        console.error("Error fetching deposits:", error);
+        res.status(500).send("An error occurred somehow");
+    }
+});
+
 
 module.exports = router;
