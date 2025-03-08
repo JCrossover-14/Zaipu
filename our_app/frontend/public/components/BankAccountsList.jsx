@@ -36,12 +36,10 @@ const BankAccountsList = () => {
 
     const fetchTransactions = async (accountId) => {
         try {
-            console.log("Before getting deposits");
             const depositsRes = await axios.get("http://localhost:8000/deposit/getDepositsByAccountId", {
                 params: { accountId: accountId },
             });
     
-            console.log("Before getting purchases");
             const purchasesRes = await axios.get("http://localhost:8000/purchases/getPurchasesByAccountId", {
                 params: { accountId: accountId },
             });
@@ -51,7 +49,6 @@ const BankAccountsList = () => {
                 ...depositsRes.data,
                 ...purchasesRes.data
             ].sort((a, b) => new Date(b.date) - new Date(a.date));
-            console.log("combined are ", combinedTransactions);
             // Update state with combined and sorted transactions
             setTransactions((prev) => ({
                 ...prev,
@@ -63,16 +60,13 @@ const BankAccountsList = () => {
         }
     };
 
-    useEffect(() => {
-        console.log("accounts is now ", accounts);
-    }, [accounts]);
 
     return (
         <Box sx={{ width: "100%", maxWidth: 600, margin: "auto", mt: 4 }}>
             {accounts.map((account, index) => {
                 const accountIdStr = account.accountId.toString(); 
                 const maskedAccountId = `**** **** **** ${accountIdStr.slice(-4)}`;
-                console.log("account._id is ", account._id);
+                //console.log("account._id is ", account._id);
     
                 return (
                     <Accordion key={account.accountId} onChange={() => fetchTransactions(account._id)}>

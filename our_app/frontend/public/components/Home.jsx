@@ -11,10 +11,11 @@ function Home(){
         <div id = "row-container">
             <div className="column">
                 <Balances/>
+                <ForecastTable/>
             </div>
             <div className="column">
                 <TransactionDistribution/>
-                <ForecastTable/>
+                
             </div>
             <div className="column"><BankAccountsList/></div>
 
