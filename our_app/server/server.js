@@ -3,8 +3,32 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+  origin: "http://localhost:5173", // Frontend URL
+  credentials: true, // Allow cookies and authentication headers
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization"
+};
+
+
+app.use(cors(corsOptions));
 app.use(express.json());
+
+const session = require("express-session");
+
+app.use(
+  session({
+    secret:"some secret key",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 1000*60*60,
+    },
+  })
+);
 
 /*
 const BankAccounts = require("./models/bankaccounts.js");
@@ -30,15 +54,18 @@ db.once("open", () =>{
 
 const bankaccountRoute = require("./routers/bankaccounts"); 
 const purchasesRoute = require("./routers/purchase");
-const usersRoute = require("./routers/users")
+const usersRoute = require("./routers/users");
+const depositRoute = require("./routers/deposit");
 
 app.use("/accounts", bankaccountRoute);
 app.use("/purchases", purchasesRoute);
 app.use("/user", usersRoute); 
+app.use("/deposit", depositRoute);
 
 app.post("/login", async (req,res)=>{
     try{
-        const user = await User.findOne({username: req.body.username});
+      console.log("req body for logging in is ", req.body);  
+      const user = await User.findOne({username: req.body.username});
         if(!user) {
             return res.status(401).send("Invalid email or password");
         }
@@ -47,6 +74,10 @@ app.post("/login", async (req,res)=>{
         if(!isMatch){
             return res.status(401).send("Invalid email or password.");
         }
+
+        req.session.userId = user._id;
+        req.session.user = {email: user.email, username: user.username};
+        res.status(200).send("Logged in successfully");
     } catch (error) {
         console.error(error);
         res.status(500).send("Error in user login");
@@ -54,13 +85,45 @@ app.post("/login", async (req,res)=>{
 });
 
 
+app.get("/userInfo", async (req,res) =>{
+  if(req.session.user){
+    try{
+      const user = await User.findById(req.session.userId);
+      if (!user){
+        return res.status(404).send("User not found");
+      }
+
+      res.json({
+        email: user.email,
+        username: root.username,
+        id: user._id,
+        role:user.role,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal server error");
+    }
+  }
+  else{
+    res.status(401).send("No active session");
+  }
+}
+)
+
 app.post("/register", async (req, res) => {
     try {
       //check if user already exists
-      const existingUser = await User.findOne({ email: req.body.email });
+      console.log(req.body);
+      var existingUser = await User.findOne({ email: req.body.email });
       if (existingUser) {
         return res.status(400).send("User already exists with this email.");
       }
+
+      existingUser = await User.findOne({username:req.body.username});
+      if(existingUser){
+        return res.status(400).send("User already exists with this username.");
+      }
+
   
       //hash the password
       const salt = await bcrypt.genSalt(10);
