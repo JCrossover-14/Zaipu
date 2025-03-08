@@ -56,11 +56,13 @@ function Balances(){
                 <AddAccountBtn refresh={refresh}/>
             </div>
         </div>
-        <div>
+        <div style={{marginTop: "10px"}}>
             <BalanceTable bankAccounts={bankAccounts}/>
         </div>
-        <div>
+        <div style={{marginTop: "10px"}}>
+            <h2>
             Total Balance: ${totalBalance.toLocaleString(undefined, {maximumFractionDigits:2})}
+            </h2>
         </div>
     </div>;
 }
