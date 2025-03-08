@@ -63,7 +63,7 @@ function TransactionDistribution(){
         }
     }
 
-    return <div>
+    return <div style={{height:"100%"}}>
         <h1>Transactions</h1>
         <PieGraph transactions={pieGraphTransactions}/> 
         <TimeButtons daysFilter={daysFilter} updateDaysFilter={updateDaysFilter}/>

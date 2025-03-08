@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PieChart } from '@mui/x-charts/PieChart';
+import { PieChart } from '@mui/x-charts';
 
 function PieGraph({transactions}){
     const dictionary = {}; 
@@ -33,17 +33,27 @@ function PieGraph({transactions}){
 
     console.log("Pie Graph Data: ", pieGraphData);
 
+    const pieParams = {
+        height: 200,
+        margin: { right: 5 },
+        slotProps: { legend: { hidden: true } },
+      };
 
     return (
-        <div id = "pieChart-div">
+        <div id = "pieChart-div" >
             <PieChart
             series={[
-            {
-                data: pieGraphData
+            {   
+                highlightScope: { fade: 'global', highlight: 'item' },
+                data: pieGraphData,
+                outerRadius: "100%",
+                arcLabelRadius: "100%",
+                
             },
             ]}
-            width={400} 
-            height={200}/>
+            width={200} 
+            height={300}
+            {...pieParams}/>
         </div>
   );
 }
