@@ -26,3 +26,30 @@
   align-items: center;
   padding: 15px;
 }
+
+/* BANK BALANCES */
+#balances-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px black solid;
+}
+
+#balances-header{
+  display: flex;
+  flex-direction: row; 
+  border: 1px red solid; 
+}
+
+#addAccount-btn{
+  display: "flex",
+  justifyContent: "center",
+  width: "150px",  // Adjust width as needed
+  height: "50px",  // Adjust height as needed
+  textAlign: "center",
+  border: "none",
+  backgroundColor: "#007BFF",
+  color: "white",
+  fontSize: "16px",
+  cursor: "pointer"
+}
