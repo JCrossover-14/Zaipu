@@ -6,6 +6,7 @@ const app = express();
 
 // create bank account 
 router.post("/addAccount", async (req, res) => {
+    console.log(req.body);
     type = req.body.type 
     accountId = req.body.accountId 
     balance = req.body.balance 
@@ -17,17 +18,20 @@ router.post("/addAccount", async (req, res) => {
     }
 
     const result = await BankAccounts.insertOne(accountAtrributes);
-    return result 
-
+    // return result 
+    res.send("hi")
 })
 
 // get accounts by accountId 
 router.get("/getAccounts/:accountId", async(req, res) => {
     accountId = req.params.accountId; 
 
-    let results = await BankAccounts.find({accountId: new mongoose.Types.ObjectId(accountId)}); 
-
-    return results;
+    let results = await BankAccounts.find({accountId: accountId}); 
+    res.send(results);
 })
 
+
+router.get("/hi", (req, res) => {
+    res.send("hi");
+})
 module.exports = router;

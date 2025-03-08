@@ -32,7 +32,7 @@ const bankaccountRoute = require("./routers/bankaccounts");
 const purchasesRoute = require("./routers/purchase");
 const usersRoute = require("./routers/users")
 
-app.use("/bank", bankaccountRoute);
+app.use("/accounts", bankaccountRoute);
 app.use("/purchases", purchasesRoute);
 app.use("/user", usersRoute); 
 
@@ -84,4 +84,11 @@ app.post("/register", async (req, res) => {
     }
   });
 
+  app.get("/", async (req, res) =>{
+    res.send("hi");
+  })
 
+  app.listen(8000, () => {
+    console.log(`App listening on port 8000`)
+  });
+  
