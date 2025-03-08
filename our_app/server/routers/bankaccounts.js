@@ -6,14 +6,16 @@ const app = express();
 
 // create bank account 
 router.post("/addAccount", async (req, res) => {
-    type = req.body.type 
-    accountId = req.body.accountId 
-    balance = req.body.balance 
+    let type = req.body.type;
+    let accountId = req.body.accountId;
+    let balance = req.body.balance;
+    let name = req.body.name;
 
     accountAttributes = {
         type: type, 
         accountId: accountId, 
-        balance: balance
+        balance: balance,
+        name: name
     }
 
     const result = await BankAccounts.insertOne(accountAttributes);
@@ -29,8 +31,4 @@ router.get("/getAccounts/:accountId", async(req, res) => {
     res.send(results);
 })
 
-
-router.get("/hi", (req, res) => {
-    res.send("hi");
-})
 module.exports = router;

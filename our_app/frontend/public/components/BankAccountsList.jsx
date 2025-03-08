@@ -14,8 +14,6 @@ const BankAccountsList = () => {
     useEffect(()=>{
         axios.get("http://localhost:8000/userInfo", {withCredentials:true})
             .then(response => {
-                //console.log("Response from /userInfo:", response);  // Log the entire response
-                //console.log("Response data from /userInfo:", response.data);
                 setUsername(response.data.username);
                 fetchAccounts(response.data.username);
             })
@@ -71,7 +69,7 @@ const BankAccountsList = () => {
                         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <Card sx={{ width: "100%", backgroundColor: `hsl(${index * 60},70%,80%)` }}>
                                 <CardContent>
-                                    <Typography variant="h6">{account.type} Account</Typography>
+                                    <Typography variant="h6">{account.name} Account</Typography>
                                     <Typography variant="body2">Balance: ${account.balance}</Typography>
                                     <Typography variant="body2">Account ID: {maskedAccountId}</Typography>
                                 </CardContent>
