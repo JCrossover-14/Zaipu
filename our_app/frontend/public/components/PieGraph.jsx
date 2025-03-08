@@ -31,7 +31,7 @@ function PieGraph({transactions}){
 
     }
 
-    console.log("Pie Graph Data: ", pieGraphData);
+    //console.log("Pie Graph Data: ", pieGraphData);
 
     const pieParams = {
         height: 200,
