@@ -6,7 +6,6 @@ const app = express();
 
 // create bank account 
 router.post("/addAccount", async (req, res) => {
-    console.log(req.body);
     type = req.body.type 
     accountId = req.body.accountId 
     balance = req.body.balance 

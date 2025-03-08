@@ -8,5 +8,5 @@ var bankAccountSchema = new Schema({
 })
 
 
-const BankAccounts = mongoose.model("bankAccounts", bankAccountSchema); 
+const BankAccounts = mongoose.model("BankAccounts", bankAccountSchema); 
 module.exports = BankAccounts; 
