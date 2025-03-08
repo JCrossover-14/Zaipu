@@ -18,7 +18,7 @@ router.post("/addPurchase", async (req, res)=>{
 
     purchaseAttributes = {
         type: type,
-        accountId: mongoose.Types.ObjectId(accountId),
+        accountId: new mongoose.Types.ObjectId(accountId),
         amount: amount,
         date: date,
         category: category,
@@ -29,24 +29,23 @@ router.post("/addPurchase", async (req, res)=>{
 })
 
 router.get("/getPurchasesByAccountId", async (req,res) =>{
-    console.log("getting purchases req body is ",req.body);
-    accountId = req.body.accountId;
+    accountId = req.query.accountId;
 
     try{
-        const purchases = await Purchase.find({accountId: accountId});
-        //console.log("result is ",purchases);
-        res.json(purchases);
+        const purchases = await Purchase.find({accountId: new mongoose.Types.ObjectId(accountId)});
+        console.log("result is ",purchases);
+        res.send(purchases);
     } catch(error){
         res.status(500).send("an error occured somehow");
     }
 })
 
 router.get("/getPurchasesByCategory", async (req,res)=>{
-    console.log("getting purchases by category body is ", req.body);
     category = req.body.category;
     try{
         const purchases = await Purchase.find({category: category});
-        res.json(purchases);
+        console.log(purchases)
+        res.send(purchases);
     } catch(error){
         res.status(500).send("an error occured somehow");
     }

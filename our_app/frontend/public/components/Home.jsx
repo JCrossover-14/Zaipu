@@ -3,7 +3,7 @@ import BankAccounts from './BankAccounts';
 import BankAccountsList from './BankAccountsList';
 import Balances from './Balances';
 import Navbar from './Navbar';
-
+import TransactionDistribution from './TransactionDistribution';
 function Home(){
     return (<div id = "container">
         <Navbar/>
@@ -11,7 +11,9 @@ function Home(){
             <div className="column">
                 <Balances/>
             </div>
-            <div className="column">two</div>
+            <div className="column">
+                <TransactionDistribution/>
+            </div>
             <div className="column"><BankAccountsList/></div>
         </div>
     </div>);

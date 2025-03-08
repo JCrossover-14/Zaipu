@@ -25,7 +25,6 @@ function Balances(){
             const res = await axios.get("http://localhost:8000/user/getAccounts",{
                 params: {username: username},
             });
-            console.log("res data is ", res.data, "type of res.data is ", typeof res.data);
             setAccounts(res.data);
 
         } catch (err) {

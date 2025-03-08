@@ -25,7 +25,6 @@ const BankAccountsList = () => {
             const res = await axios.get("http://localhost:8000/user/getAccounts",{
                 params: {username: username},
             });
-            console.log("res data is ", res.data, "type of res.data is ", typeof res.data);
             setAccounts(res.data);
 
         } catch (err) {
@@ -33,9 +32,9 @@ const BankAccountsList = () => {
         }
     };
 
-    useEffect(() => {
-        console.log("accounts is now ", accounts);
-    }, [accounts]);
+    // useEffect(() => {
+    //     console.log("accounts is now ", accounts);
+    // }, [accounts]);
 
     const fetchTransactions = async (accountId) => {
         if (transactions[accountId]) return;

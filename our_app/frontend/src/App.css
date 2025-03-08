@@ -90,3 +90,15 @@
 #logout-btn:hover{
   background-color: blue;
 }
+
+/* TRANSACTION DISRIBUTION (PIE GRAPH SECTION)*/
+
+.time-btn{
+  padding: 5px 10px;
+  border: None;
+  background: None;
+}
+
+.time-btn:hover{
+  background-color: lightgrey;
+}
