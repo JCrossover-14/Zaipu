@@ -31,7 +31,7 @@ router.put("/addAccount", async (req, res) => {
     }
     let result = await Users.findOneAndUpdate(
         {username: username}, 
-        {$push: { accountIds: new mongoose.Types.ObjectId(account._id)}},
+        {$push: { accountIds: new mongoose.Types.ObjectId(account[0]._id)}},
         {new: true, useFindAndModify: false},
     )
     res.send(result)
