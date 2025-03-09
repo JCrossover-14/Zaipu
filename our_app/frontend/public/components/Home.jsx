@@ -10,7 +10,7 @@ function Home() {
     return (
         <div id="container">
             <Navbar />
-            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="flex-start" gap={4} sx={{ mt: 4, ml:4 }}>
+            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="flex-start" gap={4} sx={{ mt: 8, ml:4 }}>
                 {/* Left Section: First Row with Balances and Transaction Distribution, Second Row with ForecastTable */}
                 <Box flex={1} minWidth="60%" maxWidth="60%" gap={4}>
                     <Grid container spacing={4}>
