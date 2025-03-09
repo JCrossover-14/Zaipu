@@ -3,6 +3,8 @@ import axios from "axios";
 import TimeButtons from "./TimeButtons";
 import PieGraph from "./PieGraph";
 
+import { Box, Typography } from "@mui/material";
+
 function TransactionDistribution(){
     const [transactions, setTransactions] = useState([]); 
     const [daysFilter, setDaysFilter] = useState(99999); 
@@ -63,12 +65,28 @@ function TransactionDistribution(){
         }
     }
 
-    return <div style={{height:"100%"}}>
-        <h1>Transactions</h1>
-        <PieGraph transactions={pieGraphTransactions}/> 
-        <TimeButtons daysFilter={daysFilter} updateDaysFilter={updateDaysFilter}/>
-    </div>;
+    return (
+        <div style={{ height: "100%" }}>
+            <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" flex={4} mt = {3} >
+                <Typography variant="h4" align="center" style={StyleSheet.title}>Transactions</Typography>
+                <PieGraph transactions={pieGraphTransactions} />
+                <TimeButtons daysFilter={daysFilter} updateDaysFilter={updateDaysFilter} />
+            </Box>
+        </div>
+    );
 }
+
+const styles = {
+    title: {
+        fontSize: '28px',
+        fontWeight: '700',
+        color: '#333',
+        letterSpacing: '1px',
+        textTransform: 'uppercase',
+        marginBottom: '20px',
+        fontFamily: '"Roboto", sans-serif',
+    }
+};
 
 export default TransactionDistribution; 
 
