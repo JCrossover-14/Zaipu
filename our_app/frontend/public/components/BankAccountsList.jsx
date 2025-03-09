@@ -36,6 +36,8 @@ const BankAccountsList = () => {
                 params: { accountId: accountId },
             });
 
+            console.log("depositsRes is ",depositsRes);
+
             const purchasesRes = await axios.get("http://localhost:8000/purchases/getPurchasesByAccountId", {
                 params: { accountId: accountId },
             });
@@ -101,6 +103,7 @@ const BankAccountsList = () => {
                         <Typography>Loading transactions...</Typography>
                     )}
                 </Box>
+                
             ) : (
                 <Grid container spacing={2} justifyContent="center">
                     {accounts.map((account, index) => {
