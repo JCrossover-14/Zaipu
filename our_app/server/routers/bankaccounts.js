@@ -26,7 +26,7 @@ router.post("/addAccount", async (req, res) => {
 // get accounts by accountId 
 router.get("/getAccounts/:accountId", async(req, res) => {
     accountId = req.params.accountId; 
-
+    console.log("accountid that works is ", accountId);
     let results = await BankAccounts.find({accountId: accountId}); 
     res.send(results);
 })
