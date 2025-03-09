@@ -1,16 +1,19 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { Accordion, AccordionSummary, AccordionDetails, Typography,
-    Card, CardContent, Box, Button} from "@mui/material";
+    Card, CardContent, Box, Button, Grid} from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Graph from "./Graph";
+import Graph2 from "./Graph2";
 
-const ForecastTable = () => {
+const ForecastTable = ({totalInitialBalance}) => {
     const [transactions, setTransactions] = useState([]);
+    const [deposits, setDeposits] = useState([]);
     const [forecastData, setForecastData] = useState([]);
     const [forecastTriggered, setForecastTriggered] = useState(false);
-
+    const [balanceData, setBalanceData] = useState([]);
+    const [initialBalance, setInitialBalance] = useState(0);
     useEffect(() => {
         const fetchData = async() => {
             console.log("trying to fetch from userInfo");
@@ -19,24 +22,38 @@ const ForecastTable = () => {
             const accounts = await axios.get("http://localhost:8000/user/getAccounts",{
                 params: {username: user.data.username},
             });
-        let accountPrimaryKeys = []
+        let accountPrimaryKeys = [];
+        let totalBalance = 0;
         accounts.data.forEach((account)=>{
             accountPrimaryKeys.push(account._id);
+            totalBalance+=account.balance;
         });
 
+        setInitialBalance(totalBalance);
+
         let newTransactions = [];
+        let newDeposits = [];
         for (let i = 0;i<accountPrimaryKeys.length;i++){
             let key = accountPrimaryKeys[i];
             let matchingTransactions = await axios.get("http://localhost:8000/purchases/getPurchasesByAccountId",
                 {params: {accountId:key}});
-            matchingTransactions = matchingTransactions.data;
 
+            let matchingDeposits = await axios.get("http://localhost:8000/deposit/getDepositsByAccountId",
+                {params: {accountId:key}});
+            
+            matchingTransactions = matchingTransactions.data;
+            matchingDeposits = matchingDeposits.data;
             for (let j=0;j<matchingTransactions.length;j++){
                 newTransactions.push(matchingTransactions[j]);
             }
+            for (let j=0;j<matchingDeposits.length;j++){
+                newDeposits.push(matchingDeposits[j]);
+            }
         }
         setTransactions(newTransactions);
-        console.log("transactions are now ",transactions);
+        setDeposits(newDeposits);
+        console.log("transactions are now ", newTransactions);
+        console.log("deposits are now ", newDeposits);
     };
     
      fetchData();
@@ -68,6 +85,7 @@ const ForecastTable = () => {
         }
 
         setForecastData(forecasts);
+        //console.log("forecasts are ", forecasts);
     }
 
     /*
@@ -78,12 +96,60 @@ const ForecastTable = () => {
     }, [transactions])
     */
 
+    const forecastBalanceOverTime = () => {
+        console.log("initial balance is ", initialBalance);
+
+        let sortedTransactions = transactions.map(({ date, amount }) => ({
+            date: new Date(date),
+            amount: -amount, // Transactions decrease balance
+          }));
+        
+          let sortedDeposits = deposits.map(({ date, amount }) => ({
+            date: new Date(date),
+            amount, // Deposits increase balance
+          }));
+        
+          let balanceChanges = [...sortedTransactions, ...sortedDeposits];
+          balanceChanges.sort((a, b) => a.date - b.date);
+
+          let i = 0, j = 0;
+          let currentBalance = initialBalance;
+          let balanceOverTime = [];
+
+          while (i < transactions.length || j < deposits.length) {
+            let transactionDate = i < transactions.length ? new Date(transactions[i].date) : null;
+            let depositDate = j < deposits.length ? new Date(deposits[j].date) : null;
+        
+            if (transactionDate && (!depositDate || transactionDate < depositDate)) {
+              currentBalance -= transactions[i].amount;
+              balanceOverTime.push({
+                date: transactionDate.toISOString().split("T")[0],
+                balance: currentBalance,
+              });
+              i++;
+            } else {
+              currentBalance += deposits[j].amount;
+              balanceOverTime.push({
+                date: depositDate.toISOString().split("T")[0],
+                balance: currentBalance,
+              });
+              j++;
+            }
+          }
+          balanceOverTime.sort((a, b) => new Date(a.date) - new Date(b.date));
+          setBalanceData(balanceOverTime);
+ 
+    }
+
     const handleForecastClick = () => {
         if (transactions.length > 0) {
             getForecastForCategories();
             setForecastTriggered(true);
+            forecastBalanceOverTime();
         }
     }
+
+
 
     return (
         <Box>
@@ -93,6 +159,7 @@ const ForecastTable = () => {
                         Forecast Future Balances
                     </Button>
                     {forecastTriggered && forecastData.map((data,index) => (
+                        <Grid key = {index}>
                         <Accordion key = {index}>
                             <AccordionSummary
                                 expandIcon = {<ExpandMoreIcon />}
@@ -107,7 +174,10 @@ const ForecastTable = () => {
                                 />
                             </AccordionDetails>
                         </Accordion>
+                        </Grid>
                     ))}
+
+                    {forecastTriggered &&  <Graph2 data = {balanceData}/>}
                 </CardContent>
             </Card>
         </Box>

@@ -1,5 +1,4 @@
-import '../../src/App.css' 
-import BankAccounts from './BankAccounts';
+import '../../src/App.css';
 import BankAccountsList from './BankAccountsList';
 import Balances from './Balances';
 import Navbar from './Navbar';
