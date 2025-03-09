@@ -1,19 +1,22 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { Accordion, AccordionSummary, AccordionDetails, Typography,
-    Card, CardContent, Box} from "@mui/material";
+    Card, CardContent, Box, Button} from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import Graph from "./Graph";
 
 const ForecastTable = () => {
     const [transactions, setTransactions] = useState([]);
     const [forecastData, setForecastData] = useState([]);
+    const [forecastTriggered, setForecastTriggered] = useState(false);
 
     useEffect(() => {
         const fetchData = async() => {
+            console.log("trying to fetch from userInfo");
             const user = await axios.get("http://localhost:8000/userInfo", {withCredentials:true});
-            const accounts = await axios.get("http://localhostL8000/user/getAccounts",{
+            console.log("user is ", user);
+            const accounts = await axios.get("http://localhost:8000/user/getAccounts",{
                 params: {username: user.data.username},
             });
         let accountPrimaryKeys = []
@@ -33,9 +36,10 @@ const ForecastTable = () => {
             }
         }
         setTransactions(newTransactions);
+        console.log("transactions are now ",transactions);
     };
     
-    fetchData();
+     fetchData();
     },[]);
 
     const categorizeTransactions = () => {
@@ -59,44 +63,58 @@ const ForecastTable = () => {
             const response = await axios.post("http://localhost:5000/forecast", {
                 transactions: categories[category]
             });
+            console.log("response forecast for ", category, " is ",response);
             forecasts.push({category, forecast: response.data.forecast});
         }
 
         setForecastData(forecasts);
     }
 
+    /*
     useEffect(()=>{
         if(transactions.length>0){
             getForecastForCategories();
         }
     }, [transactions])
+    */
+
+    const handleForecastClick = () => {
+        if (transactions.length > 0) {
+            getForecastForCategories();
+            setForecastTriggered(true);
+        }
+    }
+
+    return (
+        <Box>
+            <Card>
+                <CardContent>
+                    <Button variant="contained" color="primary" onClick = {handleForecastClick}>
+                        Forecast Future Balances
+                    </Button>
+                    {forecastTriggered && forecastData.map((data,index) => (
+                        <Accordion key = {index}>
+                            <AccordionSummary
+                                expandIcon = {<ExpandMoreIcon />}
+                                aria-controls = {`panel-${data.category}-content`}
+                                id = {`panel-${data.category}-header`}>
+                                    <Typography>{data.category}</Typography>
+                            </AccordionSummary>
+    
+                            <AccordionDetails>
+                                <Graph
+                                    data = {forecastData}
+                                />
+                            </AccordionDetails>
+                        </Accordion>
+                    ))}
+                </CardContent>
+            </Card>
+        </Box>
+    );
 }
 
 
-return (
-    <Box>
-        <Card>
-            <CardContent>
-                <Typography variant = "h6"> Forecasted Future Balance</Typography>
-                {forecastData.map((data,index) => (
-                    <Accordion key = {index}>
-                        <AccordionSummary
-                            expandIcon = {<ExpandMoreIcon />}
-                            aria-controls = {`panel-${data.category}-content`}
-                            id = {`panel-${data.category}-header`}>
-                                <Typography>{data.category}</Typography>
-                        </AccordionSummary>
 
-                        <AccordionDetails>
-                            <Graph
-                                data = {forecastData}
-                            />
-                        </AccordionDetails>
-                    </Accordion>
-                ))}
-            </CardContent>
-        </Card>
-    </Box>
-)
 
 export default ForecastTable;
