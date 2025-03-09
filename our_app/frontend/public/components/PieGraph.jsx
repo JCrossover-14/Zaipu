@@ -27,6 +27,7 @@ function PieGraph({transactions}){
                 value: dictionary[key], 
             })
             curId+=1
+            console.log(dictionary[key].toLocaleString(undefined, {maximumFractionDigits:2}))
         }
 
     }
