@@ -4,28 +4,38 @@ import Balances from './Balances';
 import Navbar from './Navbar';
 import TransactionDistribution from './TransactionDistribution';
 import ForecastTable from './ForecastTable';
-import { Box, } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 
-function Home(){
+function Home() {
     return (
-    <div id = "container">
-        <Navbar/>
-        <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="flex-start" gap = {4}>
-            <Box flex={1}  minWidth="30%" maxWidth="30%" gap = {4} p = {2}>
-                <Balances/>
-                <ForecastTable/>
+        <div id="container">
+            <Navbar />
+            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="flex-start" gap={4}>
+                {/* Left Section: First Row with Balances and Transaction Distribution, Second Row with ForecastTable */}
+                <Box flex={1} minWidth="60%" maxWidth="60%" gap={4}>
+                    <Grid container spacing={4}>
+                        {/* First row with Balances and Transaction Distribution */}
+                        <Grid item xs={12} sm={6}>
+                            <Balances />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TransactionDistribution />
+                        </Grid>
+
+                        {/* Second row with ForecastTable taking up remaining width */}
+                        <Grid item xs={12}>
+                            <ForecastTable />
+                        </Grid>
+                    </Grid>
+                </Box>
+
+                {/* Right Section: Bank Accounts List */}
+                <Box flex={1} minWidth="40%" maxWidth="40%" mb={4}>
+                    <BankAccountsList />
+                </Box>
             </Box>
-            
-            <TransactionDistribution gap = {4} />
-                
-            <Box flex={1} minWidth="40%" maxWidth="40%" mb = {4}>
-                <BankAccountsList/>
-            </Box>
-        </Box>
-        
-    </div>);
-    
-        
+        </div>
+    );
 }
 
-export default Home; 
+export default Home;
