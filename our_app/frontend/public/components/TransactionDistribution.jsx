@@ -75,8 +75,10 @@ function TransactionDistribution(){
                 </div>
 
                 {/* Pie Graph and Filter */}
+                <div style={{marginTop: "10px"}}>
                 <PieGraph transactions={pieGraphTransactions} />
                 <TimeButtons daysFilter={daysFilter} updateDaysFilter={updateDaysFilter} />
+                </div>
             </Box>
         </div>
     );

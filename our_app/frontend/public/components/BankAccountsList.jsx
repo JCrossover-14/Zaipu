@@ -36,8 +36,6 @@ const BankAccountsList = () => {
                 params: { accountId: accountId },
             });
 
-            console.log("depositsRes is ", depositsRes);
-
             const purchasesRes = await axios.get("http://localhost:8000/purchases/getPurchasesByAccountId", {
                 params: { accountId: accountId },
             });
@@ -56,7 +54,7 @@ const BankAccountsList = () => {
                 <Box sx={{ width: "100%", marginBottom: 4 }}>
                     <div id="balances-header">
                         <div id="balances-header-1">
-                            <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "center",  }}>
+                            <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "center" }}>
                                 Transactions (By Account)
                             </Typography>
                         </div>
@@ -75,7 +73,16 @@ const BankAccountsList = () => {
                             Transactions
                         </Typography>
                     </Box>
-                    <Card sx={{ width: "80%", backgroundColor: "hsl(220,10%,30%)", color: "#fff", borderRadius: "16px", padding: "24px", mb: 2, mx: "auto", minHeight: "200px" }}>
+                    <Card sx={{
+                        width: "80%",
+                        backgroundColor: "hsl(220,10%,30%)",
+                        color: "#fff",
+                        borderRadius: "16px",
+                        padding: "24px",
+                        mb: 2,
+                        mx: "auto",
+                        minHeight: "200px"
+                    }}>
                         <Typography variant="h6" sx={{ fontWeight: "bold", fontSize: "22px", textTransform: "uppercase", opacity: 0.9, textAlign: "left" }}>
                             {accounts.find(acc => acc._id === expandedAccount)?.name}
                         </Typography>
@@ -83,41 +90,46 @@ const BankAccountsList = () => {
                             Balance: ${accounts.find(acc => acc._id === expandedAccount)?.balance}
                         </Typography>
                     </Card>
-                    {transactions[expandedAccount] ? (
-                        transactions[expandedAccount].map((txn, i) => (
-                            <Card
-                                key={txn._id || i} // Use txn._id if possible, else fallback to index
-                                sx={{
-                                    backgroundColor: txn.type === "deposit" ? "hsl(140, 50%, 50%)" : "hsl(40, 80%, 50%)", // Neutral green for deposits, yellow for purchases
-                                    color: "#fff",
-                                    borderRadius: "16px",
-                                    padding: "16px",
-                                    mb: 2,
-                                    fontFamily: 'Poppins, sans-serif',
-                                    width: "100%", // Ensure transaction card width doesn't exceed account card
-                                }}
-                            >
-                                <CardContent sx={{ display: "flex", flexDirection: "column" }}>
-                                    <Typography variant="h6" sx={{ fontWeight: "bold", fontSize: "18px" }}>
-                                        {txn.category} Transaction
-                                    </Typography>
-                                    <Typography variant="body1" sx={{ opacity: 0.9 }}>
-                                        Amount: ${txn.amount}
-                                    </Typography>
-                                    <Typography variant="body2" sx={{ opacity: 0.7 }}>
-                                        Date: {new Date(txn.date).toLocaleDateString()}
-                                    </Typography>
-                                    {txn._id && (
-                                        <Typography variant="body2" sx={{ opacity: 0.6 }}>
-                                            Transaction ID: {txn._id}
+                    <Box sx={{
+                        maxHeight: "125vh", // Set max height to 125% of the viewport height
+                        overflowY: "auto", // Enable vertical scrolling when the content exceeds the max height
+                    }}>
+                        {transactions[expandedAccount] ? (
+                            transactions[expandedAccount].map((txn, i) => (
+                                <Card
+                                    key={txn._id || i} // Use txn._id if possible, else fallback to index
+                                    sx={{
+                                        backgroundColor: txn.type === "deposit" ? "hsl(140, 50%, 50%)" : "hsl(40, 80%, 50%)",
+                                        color: "#fff",
+                                        borderRadius: "16px",
+                                        padding: "16px",
+                                        mb: 2,
+                                        fontFamily: 'Poppins, sans-serif',
+                                        width: "100%",
+                                    }}
+                                >
+                                    <CardContent sx={{ display: "flex", flexDirection: "column" }}>
+                                        <Typography variant="h6" sx={{ fontWeight: "bold", fontSize: "18px" }}>
+                                            {txn.category} Transaction
                                         </Typography>
-                                    )}
-                                </CardContent>
-                            </Card>
-                        ))
-                    ) : (
-                        <Typography>Loading transactions...</Typography>
-                    )}
+                                        <Typography variant="body1" sx={{ opacity: 0.9 }}>
+                                            Amount: ${txn.amount}
+                                        </Typography>
+                                        <Typography variant="body2" sx={{ opacity: 0.7 }}>
+                                            Date: {new Date(txn.date).toLocaleDateString()}
+                                        </Typography>
+                                        {txn._id && (
+                                            <Typography variant="body2" sx={{ opacity: 0.6 }}>
+                                                Transaction ID: {txn._id}
+                                            </Typography>
+                                        )}
+                                    </CardContent>
+                                </Card>
+                            ))
+                        ) : (
+                            <Typography>Loading transactions...</Typography>
+                        )}
+                    </Box>
                 </Box>
             ) : (
                 <Grid container spacing={2} justifyContent="center">
@@ -130,8 +142,8 @@ const BankAccountsList = () => {
                                 <Accordion onChange={() => fetchTransactions(account._id)}>
                                     <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={() => setExpandedAccount(account._id)}>
                                         <Card sx={{
-                                            width: "100%", // Ensure card width is consistent
-                                            height: expandedAccount === account._id ? "auto" : "160px", // Adjust height to fit content
+                                            width: "100%",
+                                            height: expandedAccount === account._id ? "auto" : "160px",
                                             backgroundColor: `hsl(${index * 60},10%,30%)`,
                                             color: "#fff",
                                             borderRadius: "16px",
@@ -142,7 +154,7 @@ const BankAccountsList = () => {
                                             minHeight: "160px",
                                             position: "relative",
                                             fontFamily: 'Poppins, sans-serif',
-                                            transition: "width 0.5s ease, height 0.5s ease", // Add transition for smooth scaling
+                                            transition: "width 0.5s ease, height 0.5s ease",
                                         }}>
                                             <CardContent sx={{ display: "flex", flexDirection: "column", gap: 1, textAlign: "left" }}>
                                                 <Typography variant="h6" sx={{ fontWeight: "bold", fontSize: "20px", textTransform: "uppercase", opacity: 0.9 }}>

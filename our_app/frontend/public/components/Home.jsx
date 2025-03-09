@@ -30,7 +30,7 @@ function Home() {
                 </Box>
 
                 {/* Right Section: Bank Accounts List */}
-                <Box flex={1} minWidth="40%" maxWidth="40%" mb={0} sx={{ mt: 0 }}>
+                <Box flex={1} minWidth="40%" maxWidth="40%" mb={0} sx={{ ml:0, mt: 0 }}>
                     <BankAccountsList />
                 </Box>
             </Box>
