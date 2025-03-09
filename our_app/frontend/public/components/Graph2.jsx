@@ -24,7 +24,7 @@ const Graph2 = ({data}) => {
         labels: labels,
         datasets:[
             {
-                label: 'Value over Time',
+                label: 'Forecasted balance',
                 data: values,
                 fill: false,
                 borderColor: 'rgba(75,192,192,1)',
@@ -36,7 +36,7 @@ const Graph2 = ({data}) => {
     return (
         <Card>
             <CardContent>
-                <Typography variant = "h6"> Date vs Value </Typography>
+                <Typography variant = "h6"> Forecasted Balance </Typography>
                 <Line data={chartData} />
             </CardContent>
         </Card>

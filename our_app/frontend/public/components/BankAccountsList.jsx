@@ -36,7 +36,7 @@ const BankAccountsList = () => {
                 params: { accountId: accountId },
             });
 
-            console.log("depositsRes is ",depositsRes);
+            console.log("depositsRes is ", depositsRes);
 
             const purchasesRes = await axios.get("http://localhost:8000/purchases/getPurchasesByAccountId", {
                 params: { accountId: accountId },
@@ -51,13 +51,29 @@ const BankAccountsList = () => {
 
     return (
         <Box sx={{ width: "100%", margin: "auto", mt: 4 }}>
+            {/* Title Section */}
+            {!expandedAccount && (
+                <Box sx={{ width: "100%", marginBottom: 4 }}>
+                    <div id="balances-header">
+                        <div id="balances-header-1">
+                            <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "center",  }}>
+                                Transactions (By Account)
+                            </Typography>
+                        </div>
+                    </div>
+                </Box>
+            )}
+
             {expandedAccount ? (
-                <Box sx={{ width: "100%", height: "80vh", overflowY: "auto", p: 2 }}>
+                <Box sx={{ width: "100%", height: "auto", overflowY: "auto", p: 2 }}>
                     <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
                         <IconButton onClick={() => setExpandedAccount(null)}>
                             <ArrowBackIcon />
                         </IconButton>
-                        <Typography variant="h5">Transactions</Typography>
+                        {/* Centering the title */}
+                        <Typography variant="h5" sx={{ flex: 1, textAlign: "center", fontWeight: "bold", color: "#3f51b5" }}>
+                            Transactions
+                        </Typography>
                     </Box>
                     <Card sx={{ width: "80%", backgroundColor: "hsl(220,10%,30%)", color: "#fff", borderRadius: "16px", padding: "24px", mb: 2, mx: "auto", minHeight: "200px" }}>
                         <Typography variant="h6" sx={{ fontWeight: "bold", fontSize: "22px", textTransform: "uppercase", opacity: 0.9, textAlign: "left" }}>
@@ -103,7 +119,6 @@ const BankAccountsList = () => {
                         <Typography>Loading transactions...</Typography>
                     )}
                 </Box>
-                
             ) : (
                 <Grid container spacing={2} justifyContent="center">
                     {accounts.map((account, index) => {
